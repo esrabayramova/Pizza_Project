@@ -5,7 +5,7 @@ main.py file should be run.
 ## Main menu
 There are 3 buttons:
 Sign up, sign in and login as administrator.
-(Note: Admin name is Admin2020 and password is 20thisisadmin and it is stored as a private variable in Admin class)
+(Note: Admin name is Admin2020 and password is 20thisisadmin20 and it is stored as a private variable in Admin class)
 
 ## Sign up
 You can create a new profile.
