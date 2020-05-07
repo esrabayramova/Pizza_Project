@@ -19,10 +19,10 @@ You can view your purchases` history or order a new pizza - either select from m
 Admin can add a new pizza to the menu or delete a pizza from the menu.
 
 ## Database
- There are 2 databases: Pizzeria.db and users.db
+ There are 2 databases: Pizzeria.db and Users.db .
 
  1 is used to store pizzas with their name, id, price and content.
 2nd database is for users and there are 3 tables:
-One to store username and corresponding passwords, 2 to store usernames and the id-s of their order and 3 to store order_id and the date_tie, price and content of the order.
+One to store usernames and corresponding passwords, 2 to store usernames and the id-s of their order and 3 to store order_id and the date_time, price and content of the order.
 
 First, Databe_pizzeria.py file is run and the databases are already created. Also, there are already some users that have been registered and ordered pizza and all this information is stored in database.
