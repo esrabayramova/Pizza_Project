@@ -184,7 +184,9 @@ class Remove_pizza:
             #print(pza)
             n = len(pza)
             for i in range(0, n):
-                Radiobutton(root, text=pza[i][0], width=15, font=("Helvetica", 12, "italic"), variable=self.r, value=id+i).place(x=10, y=100 + h)
+                cursor.execute('SELECT Pizza_id FROM Pizzas WHERE Pizza = ?', (pza[i][0], ))
+                v = cursor.fetchone()[0]
+                Radiobutton(root, text=pza[i][0], width=15, font=("Helvetica", 12, "italic"), variable=self.r, value=v).place(x=10, y=100 + h)
                 h += 50
 
         else:
@@ -197,6 +199,7 @@ class Remove_pizza:
 
     def rmv(self):
         var = self.r.get()
+
         if var == 0:
             self.prev.update()
             self.prev.deiconify()
