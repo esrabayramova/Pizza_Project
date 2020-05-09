@@ -65,7 +65,7 @@ class Admin:
 
         self.b1 = Button(self.root, text='Add pizza', width=20, bg='MistyRose3', fg='white', command = self.add_p).place(x=150, y=100)
         self.b2 = Button(self.root, text='Remove pizza', width=20, bg='MistyRose3', fg='white', command = self.remove_p).place(x=150, y=150)
-        #self.b3 = Button(self.root, text='View menu', width=20, bg='MistyRose3', fg='white').place(x=150, y=200)
+        self.b3 = Button(self.root, text='View orders', width=20, bg='MistyRose3', fg='white', command = self.view_orders).place(x=150, y=200)
         self.b4 = Button(self.root, text='Log out', width=20, bg='MistyRose3', fg='white', command = self.cancel).place(x=150, y=250)
 
     @classmethod
@@ -89,6 +89,12 @@ class Admin:
     def remove_p(self):
         a = Toplevel(self.root)
         b = Remove_pizza(a, self.root)
+        self.root.withdraw()
+
+    def view_orders(self):
+        a = Toplevel(self.root)
+        b = ViewOrders(a, self.root)
+        b.orders()
         self.root.withdraw()
 
 class Add_pizza:
@@ -206,6 +212,53 @@ class Remove_pizza:
             self.prev.update()
             self.prev.deiconify()
             self.root.destroy()
+
+    def cancel(self):
+        self.prev.update()
+        self.prev.deiconify()
+        self.root.withdraw()
+
+class ViewOrders:
+
+    def __init__(self, root, prev):
+
+        self.root = root
+        self.prev = prev
+        self.root.geometry('800x800')
+        self.root.title('Orders')
+
+        self.label_0 = Label(root, text="History of purchases", width=25, font=("bold", 20), fg='AntiqueWhite3').place(x=200, y=25)
+
+        self.orders_list = Listbox(root, width=100, height=35)
+
+        self.b1 = Button(self.root, text='Back', width=20, bg='MistyRose3', fg='white', command=self.cancel).place(x=325, y=700)
+        self.b2 = Button(self.root, text='Quit', width=20, bg='MistyRose3', fg='white', command=self.root.quit).place(x=325, y=750)
+
+    def orders(self):
+
+        con = sqlite3.connect('Users.db')
+        cursor = con.cursor()
+
+        cursor.execute('SELECT Order_id FROM User_orders')
+        ords = cursor.fetchall()
+
+        for i in ords:
+            i = int(i[0])
+            cursor.execute('SELECT Username FROM User_Orders WHERE Order_id = ?', (i, ))
+            n = cursor.fetchone()[0]
+            cursor.execute('SELECT Order_content FROM Orders WHERE Order_id = ?', (i, ))
+            o = cursor.fetchone()[0]
+            cursor.execute('SELECT History FROM Orders WHERE Order_id = ?', (i, ))
+            h = cursor.fetchone()[0]
+            cursor.execute('SELECT Price FROM Orders WHERE Order_id = ?', (i, ))
+            p = cursor.fetchone()[0]
+
+            line = n+': '+o+' - '+p+'$'+' - '+h
+
+            self.orders_list.insert(END, line)
+
+        con.close()
+        self.orders_list.place(x=75, y=100)
 
     def cancel(self):
         self.prev.update()
